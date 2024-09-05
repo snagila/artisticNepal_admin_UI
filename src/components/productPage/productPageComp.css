@@ -1,0 +1,18 @@
+.productFormCrossDiv {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ddd;
+}
+
+.productFormCross {
+  position: absolute;
+  top: 0px;
+  right: 1px;
+  cursor: pointer;
+  color: red;
+}

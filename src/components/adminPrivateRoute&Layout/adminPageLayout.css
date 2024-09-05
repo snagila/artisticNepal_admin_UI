@@ -1,0 +1,14 @@
+.AdminLayoutCol1 {
+  background-color: #9c9f84;
+}
+.AdminLayoutCol2 {
+  background-color: #f1f1f4;
+  max-height: 100vh;
+  overflow-x: scroll;
+}
+
+/* #A89F94 third color */
+
+.sideBarItems:hover {
+  color: whitesmoke !important;
+}
