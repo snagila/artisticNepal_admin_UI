@@ -9,6 +9,7 @@ import {
   Container,
   Form,
   Row,
+  Spinner,
   Stack,
 } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
@@ -17,39 +18,65 @@ import { newProductformFields } from "./newProductFormFields";
 import { ImCross } from "react-icons/im";
 import { getCategoriesAction } from "../../redux/categoryRedux/categoryActions";
 import { editProductAction } from "../../redux/productRedux/productActions";
+import { toast } from "react-toastify";
 
 const EditProductForm = ({ productData }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [newThumbnail, setNewThumbnail] = useState([]);
+  const [existingThumbnail, setExistingthumbnail] = useState([]);
+  const [thumbnailToDeleteFromCloud, setThumbnailToDeleteFromCloud] = useState(
+    []
+  );
+
   const [newImages, setNewImages] = useState([]);
   const [existingImages, setExistingImages] = useState([]);
   const [imagesToDeletefromCloud, setImagesToDeletefromCloud] = useState([]);
 
-  const { _id, images, ...rest } = productData;
+  const { _id, images, thumbnail, ...rest } = productData;
   const { formData, handleOnChange } = useForm(rest);
 
   const { categories } = useSelector((state) => state.category);
   const { isLoading } = useSelector((state) => state.helper);
 
   const handleNewImagesChange = (e) => {
-    const files = Array.from(e.target.files);
-    setNewImages([...newImages, ...files]);
+    if (e.target.name === "thumbnail") {
+      const updatedImages = [...existingThumbnail];
+      console.log(updatedImages);
+      const file = Array.from(e.target.files);
+      setNewThumbnail(file);
+      setThumbnailToDeleteFromCloud([...existingThumbnail]);
+      setExistingthumbnail([]);
+    } else {
+      const files = Array.from(e.target.files);
+      setNewImages([...newImages, ...files]);
+    }
   };
 
-  const handleRemoveImage = (index) => {
+  const handleRemoveImage = (index, imageName) => {
+    if (imageName === "thumbnail") {
+      setNewThumbnail([]);
+    } else {
+    }
     const updatedImages = [...newImages];
     updatedImages.splice(index, 1);
     setNewImages(updatedImages);
   };
 
-  const handleRemoveExistingImage = (index) => {
-    const updatedImages = [...existingImages];
-    setImagesToDeletefromCloud([
-      ...imagesToDeletefromCloud,
-      updatedImages[index],
-    ]);
-    updatedImages.splice(index, 1);
-    setExistingImages(updatedImages);
+  const handleRemoveExistingImage = (index, thumbnail) => {
+    if (thumbnail === "removeexistingThumbnail") {
+      const updatedImages = [...existingThumbnail];
+      setExistingthumbnail([]);
+      setThumbnailToDeleteFromCloud([updatedImages]);
+    } else {
+      const updatedImages = [...existingImages];
+      setImagesToDeletefromCloud([
+        ...imagesToDeletefromCloud,
+        updatedImages[index],
+      ]);
+      updatedImages.splice(index, 1);
+      setExistingImages(updatedImages);
+    }
   };
 
   const handleCancelButton = () => {
@@ -65,16 +92,27 @@ const EditProductForm = ({ productData }) => {
     Object.entries(formData).forEach(([key, value]) =>
       formObject.append(key, value)
     );
+
     Array.from(newImages).forEach((image) => {
       formObject.append("images", image);
     });
+
     Array.from(existingImages).forEach((image) => {
-      formObject.append("existingImage", image);
+      formObject.append("existingImages", image);
     });
     Array.from(imagesToDeletefromCloud).forEach((image) => {
       formObject.append("imagesToDeletefromCloud", image);
     });
-    // console.log(...formObject.entries());
+    Array.from(thumbnailToDeleteFromCloud).forEach((image) => {
+      formObject.append("thumbnailToDeleteFromCloud", image);
+    });
+    Array.from(newThumbnail).forEach((image) => {
+      formObject.append("newThumbnail", image);
+    });
+    Array.from(existingThumbnail).forEach((image) => {
+      formObject.append("existingThumbnail", image);
+    });
+    console.log(...formObject.entries());
     const action = await dispatch(editProductAction(formObject, _id));
     if (action?.status === "success") {
       navigate("/admin/products");
@@ -87,6 +125,7 @@ const EditProductForm = ({ productData }) => {
     dispatch(getCategoriesAction());
     if (_id) {
       setExistingImages(images);
+      setExistingthumbnail(thumbnail);
     }
   }, [_id]);
   return (
@@ -140,6 +179,79 @@ const EditProductForm = ({ productData }) => {
               );
             })}
           </Row>
+
+          {/* PRODUCT THUMBNAIL */}
+          <Row>
+            <Row>
+              <Form.Label className="fw-bold ms-1">
+                Thumbnail * {thumbnail.length} files uploaded
+              </Form.Label>
+
+              <Form.Control
+                type="file"
+                name="thumbnail"
+                onChange={handleNewImagesChange}
+                accept="image/png,image/jpeg, image/gif, image/webp"
+                className="ms-3"
+                required={existingThumbnail.length < 1}
+                max={1}
+              />
+            </Row>
+            <Row className="p-2 ms-2">
+              {newThumbnail?.length > 0 &&
+                newThumbnail.map((image, index) => (
+                  <Col key={index}>
+                    <div className="productFormCrossDiv">
+                      <ImCross
+                        size={15}
+                        className="productFormCross"
+                        onClick={() => handleRemoveImage(index, "thumbnail")}
+                      />
+
+                      <img
+                        src={URL.createObjectURL(image)}
+                        alt={`Product Image ${index + 1}`}
+                        style={{
+                          maxWidth: "100px",
+                          maxHeight: "100px",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </div>
+                  </Col>
+                ))}
+              {existingThumbnail.length > 0 &&
+                newThumbnail.length < 1 &&
+                existingThumbnail.map((image, index) => (
+                  <Col key={index}>
+                    <div className="productFormCrossDiv">
+                      <ImCross
+                        size={15}
+                        className="productFormCross"
+                        onClick={() =>
+                          handleRemoveExistingImage(
+                            index,
+                            "removeexistingThumbnail"
+                          )
+                        }
+                      />
+
+                      <img
+                        src={image}
+                        alt={`Product Image ${index + 1}`}
+                        style={{
+                          maxWidth: "100px",
+                          maxHeight: "100px",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </div>
+                  </Col>
+                ))}
+            </Row>
+          </Row>
+
+          {/* PRODUCT IMAGES */}
           <Row>
             <Row>
               <Form.Label className="fw-bold ms-1">

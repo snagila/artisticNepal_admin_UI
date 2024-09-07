@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteProductActions } from "../../redux/productRedux/productActions";
 import { toast } from "react-toastify";
+import ViewProductSwiper from "../../components/productPage/ViewProduct_Page/ViewProductSwiper";
 
 const ViewProduct = () => {
   const { isLoading } = useSelector((state) => state.helper);
@@ -20,17 +21,14 @@ const ViewProduct = () => {
     if (result?.status === "success") {
       navigate("/admin/products");
       toast.success("Product Successfully Deleted.");
+      return;
     }
   };
   return (
     <>
       <Container>
         <Row>
-          {product?.images.map((image, i) => (
-            <Col xs={6} md={4} key={i} className="viewProductImages">
-              <Image src={image} thumbnail />
-            </Col>
-          ))}
+          <ViewProductSwiper product={product} />
         </Row>
         <Link to={`/admin/edit-product/${product._id}`}>
           <Button>Edit</Button>

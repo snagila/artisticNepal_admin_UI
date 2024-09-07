@@ -26,6 +26,7 @@ const EditProductPage = () => {
       ? format(new Date(productToEdit?.salesEndDate), "yyyy-MM-dd", "")
       : "",
     images: productToEdit.images,
+    thumbnail: productToEdit.thumbnail,
   };
 
   return (

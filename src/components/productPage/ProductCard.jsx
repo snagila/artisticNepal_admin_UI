@@ -25,7 +25,7 @@ const ProductCard = ({ products }) => {
           key={product._id}
         >
           <Card.Img
-            src={product.images[0]}
+            src={product.thumbnail[0]}
             alt="Card image"
             style={{ height: "80%" }}
           />

@@ -8,6 +8,7 @@ import { getProductsAction } from "../../redux/productRedux/productActions";
 
 const ProductPage = () => {
   const { products } = useSelector((state) => state.product);
+  console.log(products);
   const dispatch = useDispatch();
 
   useEffect(() => {

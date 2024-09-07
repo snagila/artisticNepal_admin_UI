@@ -26,6 +26,7 @@ import { toast } from "react-toastify";
 
 const NewProductForm = ({ initialFormData }) => {
   const [images, setImages] = useState([]);
+  const [thumbnail, setThumbnail] = useState([]);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -35,14 +36,24 @@ const NewProductForm = ({ initialFormData }) => {
   const { formData, handleOnChange } = useForm(initialFormData);
 
   const handleNewImagesChange = (e) => {
-    const files = Array.from(e.target.files);
-    setImages([...images, ...files]);
+    if (e.target.name === "thumbnail") {
+      const file = Array.from(e.target.files);
+
+      setThumbnail(file);
+    } else {
+      const files = Array.from(e.target.files);
+      setImages([...images, ...files]);
+    }
   };
 
-  const handleRemoveImage = (index) => {
-    const updatedImages = [...images];
-    updatedImages.splice(index, 1);
-    setImages(updatedImages);
+  const handleRemoveImage = (index, imageName) => {
+    if (imageName === "thumbnail") {
+      setThumbnail([]);
+    } else {
+      const updatedImages = [...images];
+      updatedImages.splice(index, 1);
+      setImages(updatedImages);
+    }
   };
 
   const handleOnSubmit = async (e) => {
@@ -55,6 +66,9 @@ const NewProductForm = ({ initialFormData }) => {
     );
     Array.from(images).forEach((image) => {
       formObject.append("images", image);
+    });
+    Array.from(thumbnail).forEach((image) => {
+      formObject.append("thumbnail", image);
     });
     // console.log(...formObject.entries());
     const action = await dispatch(createNewProductAction(formObject));
@@ -119,6 +133,50 @@ const NewProductForm = ({ initialFormData }) => {
               );
             })}
           </Row>
+
+          {/* PRODUCT THUMBNAIL */}
+          <Row>
+            <Row>
+              <Form.Label className="fw-bold ms-1">
+                Thumbnail * {thumbnail.length} files uploaded
+              </Form.Label>
+
+              <Form.Control
+                type="file"
+                name="thumbnail"
+                onChange={handleNewImagesChange}
+                accept="image/png,image/jpeg, image/gif, image/webp"
+                className="ms-3"
+                required
+              />
+            </Row>
+            <Row className="p-2 ms-2">
+              {thumbnail?.length > 0 &&
+                thumbnail.map((image, index) => (
+                  <Col key={index}>
+                    <div className="productFormCrossDiv">
+                      <ImCross
+                        size={15}
+                        className="productFormCross"
+                        onClick={() => handleRemoveImage(index, "thumbnail")}
+                      />
+
+                      <img
+                        src={URL.createObjectURL(image)}
+                        alt={`Product Image ${index + 1}`}
+                        style={{
+                          maxWidth: "100px",
+                          maxHeight: "100px",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </div>
+                  </Col>
+                ))}
+            </Row>
+          </Row>
+
+          {/* PRODUCT IMAGES */}
           <Row>
             <Row>
               <Form.Label className="fw-bold ms-1">

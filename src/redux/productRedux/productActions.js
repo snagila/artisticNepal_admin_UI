@@ -15,7 +15,7 @@ export const createNewProductAction = (formObject) => async (dispatch) => {
 
   if (result.status === "error") {
     dispatch(setIsLoading(false));
-    toast.error(error.message);
+    toast.error(result.message);
     return;
   }
   if (result.status === "success") {
@@ -24,6 +24,7 @@ export const createNewProductAction = (formObject) => async (dispatch) => {
     dispatch(getProductsAction());
     return result;
   }
+  dispatch(setIsLoading(false));
 };
 
 // get products
@@ -60,11 +61,12 @@ export const deleteProductActions = (product) => async (dispatch) => {
 
 // edit product
 export const editProductAction = (formObject, id) => async (dispatch) => {
+  dispatch(setIsLoading(true));
   const result = await editProduct(formObject, id);
 
   if (result.status === "error") {
     dispatch(setIsLoading(false));
-    toast.error(error.message);
+    toast.error(result.message);
     return;
   }
   if (result.status === "success") {
