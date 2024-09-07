@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import useForm from "../../hooks/useForm";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Alert,
   Badge,
@@ -7,57 +9,73 @@ import {
   Container,
   Form,
   Row,
-  Spinner,
   Stack,
 } from "react-bootstrap";
-import "./productPageComp.css";
 import { Link, useNavigate } from "react-router-dom";
-import { newProductformFields } from "./newProductFormFields";
 import CustomInput from "../sharedComponents/CustomInput";
-import useForm from "../../hooks/useForm";
-import { useDispatch, useSelector } from "react-redux";
-import { getCategoriesAction } from "../../redux/categoryRedux/categoryActions";
+import { newProductformFields } from "./newProductFormFields";
 import { ImCross } from "react-icons/im";
-import {
-  createNewProductAction,
-  editProductAction,
-} from "../../redux/productRedux/productActions";
-import { toast } from "react-toastify";
+import { getCategoriesAction } from "../../redux/categoryRedux/categoryActions";
+import { editProductAction } from "../../redux/productRedux/productActions";
 
-const NewProductForm = ({ initialFormData }) => {
-  const [images, setImages] = useState([]);
-
+const EditProductForm = ({ productData }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [newImages, setNewImages] = useState([]);
+  const [existingImages, setExistingImages] = useState([]);
+  const [imagesToDeletefromCloud, setImagesToDeletefromCloud] = useState([]);
+
+  const { _id, images, ...rest } = productData;
+  const { formData, handleOnChange } = useForm(rest);
 
   const { categories } = useSelector((state) => state.category);
   const { isLoading } = useSelector((state) => state.helper);
-  const { formData, handleOnChange } = useForm(initialFormData);
 
   const handleNewImagesChange = (e) => {
     const files = Array.from(e.target.files);
-    setImages([...images, ...files]);
+    setNewImages([...newImages, ...files]);
   };
 
   const handleRemoveImage = (index) => {
-    const updatedImages = [...images];
+    const updatedImages = [...newImages];
     updatedImages.splice(index, 1);
-    setImages(updatedImages);
+    setNewImages(updatedImages);
   };
 
+  const handleRemoveExistingImage = (index) => {
+    const updatedImages = [...existingImages];
+    setImagesToDeletefromCloud([
+      ...imagesToDeletefromCloud,
+      updatedImages[index],
+    ]);
+    updatedImages.splice(index, 1);
+    setExistingImages(updatedImages);
+  };
+
+  const handleCancelButton = () => {
+    if (productData) {
+      navigate(`/admin/view-product/${_id}`, {
+        state: { product: productData },
+      });
+    }
+  };
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    // PROCESS FORM DATA TO SEND IMAGE FILE AS WELL IN XML
-
     let formObject = new FormData();
     Object.entries(formData).forEach(([key, value]) =>
       formObject.append(key, value)
     );
-    Array.from(images).forEach((image) => {
+    Array.from(newImages).forEach((image) => {
       formObject.append("images", image);
     });
+    Array.from(existingImages).forEach((image) => {
+      formObject.append("existingImage", image);
+    });
+    Array.from(imagesToDeletefromCloud).forEach((image) => {
+      formObject.append("imagesToDeletefromCloud", image);
+    });
     // console.log(...formObject.entries());
-    const action = await dispatch(createNewProductAction(formObject));
+    const action = await dispatch(editProductAction(formObject, _id));
     if (action?.status === "success") {
       navigate("/admin/products");
       toast.success(action.message);
@@ -67,7 +85,10 @@ const NewProductForm = ({ initialFormData }) => {
 
   useEffect(() => {
     dispatch(getCategoriesAction());
-  }, []);
+    if (_id) {
+      setExistingImages(images);
+    }
+  }, [_id]);
   return (
     <>
       <Container>
@@ -122,7 +143,7 @@ const NewProductForm = ({ initialFormData }) => {
           <Row>
             <Row>
               <Form.Label className="fw-bold ms-1">
-                Product Images * {images.length} files uploaded
+                Product Images * {newImages.length} files uploaded
               </Form.Label>
 
               <Form.Control
@@ -133,12 +154,12 @@ const NewProductForm = ({ initialFormData }) => {
                 onChange={handleNewImagesChange}
                 accept="image/png,image/jpeg, image/gif, image/webp"
                 className="ms-3"
-                required
+                required={existingImages < 1}
               />
             </Row>
             <Row className="p-2 ms-2">
-              {images.length > 0 &&
-                images.map((image, index) => (
+              {newImages.length > 0 &&
+                newImages.map((image, index) => (
                   <Col key={index}>
                     <div className="productFormCrossDiv">
                       <ImCross
@@ -159,23 +180,47 @@ const NewProductForm = ({ initialFormData }) => {
                     </div>
                   </Col>
                 ))}
+              {existingImages.length > 0 &&
+                existingImages.map((image, index) => (
+                  <Col key={index}>
+                    <div className="productFormCrossDiv">
+                      <ImCross
+                        size={15}
+                        className="productFormCross"
+                        onClick={() => handleRemoveExistingImage(index)}
+                      />
+
+                      <img
+                        src={image}
+                        alt={`Product Image ${index + 1}`}
+                        style={{
+                          maxWidth: "100px",
+                          maxHeight: "100px",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </div>
+                  </Col>
+                ))}
             </Row>
           </Row>
           <Stack direction="horizontal" gap={2} className="pt-4">
             <Button
-              variant="outline-success"
+              variant="outline-warning"
               className="w-100"
               type="submit"
               disabled={isLoading}
             >
-              {isLoading ? <Spinner animation="border" size="sm" /> : "Create"}
+              {isLoading ? <Spinner animation="border" size="sm" /> : "Update"}
             </Button>
 
-            <Link to="/admin/products" className="w-100">
-              <Button variant="outline-danger" className="w-100">
-                Cancel
-              </Button>
-            </Link>
+            <Button
+              variant="outline-danger"
+              className="w-100"
+              onClick={handleCancelButton}
+            >
+              Cancel
+            </Button>
           </Stack>
         </Form>
       </Container>
@@ -183,4 +228,4 @@ const NewProductForm = ({ initialFormData }) => {
   );
 };
 
-export default NewProductForm;
+export default EditProductForm;

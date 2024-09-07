@@ -3,11 +3,13 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { BsTag } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import ProductCard from "../../components/productPage/ProductCard";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getProductsAction } from "../../redux/productRedux/productActions";
 
 const ProductPage = () => {
+  const { products } = useSelector((state) => state.product);
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getProductsAction());
   }, []);
@@ -34,7 +36,7 @@ const ProductPage = () => {
           </Row>
 
           <Row className="gap-2 ms-1">
-            <ProductCard />
+            <ProductCard products={products} />
           </Row>
         </Row>
       </Container>

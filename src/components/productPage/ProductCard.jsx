@@ -4,15 +4,13 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { getProductsAction } from "../../redux/productRedux/productActions";
 
-const ProductCard = ({}) => {
-  const { products } = useSelector((state) => state.product);
+const ProductCard = ({ products }) => {
   const navigate = useNavigate();
 
   const handleViewProduct = (product) => {
     if (product) {
-      navigate(`/admin/${product._id}`, {
+      navigate(`/admin/view-product/${product._id}`, {
         state: { product: product },
       });
     }

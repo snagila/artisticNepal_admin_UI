@@ -33,11 +33,15 @@ export const getProduct = async () => {
 };
 
 // delete a product
-export const deleteProduct = async (id) => {
+export const deleteProduct = async (product) => {
   try {
-    const response = await axios.delete(`${PRODUCT_BASE_URL}/${id}`, {
-      headers: { Authorization: accessJWT },
-    });
+    const response = await axios.post(
+      `${PRODUCT_BASE_URL}/delete/${product._id}`,
+      product,
+      {
+        headers: { Authorization: sessionStorage.getItem("accessJWT") },
+      }
+    );
     return response.data;
   } catch (error) {
     console.log(error.message);
@@ -46,12 +50,12 @@ export const deleteProduct = async (id) => {
 };
 
 // edit product
-export const editProduct = async (formObject, id, existingImages) => {
+export const editProduct = async (formObject, id) => {
   try {
     console.log(...formObject.entries());
     const response = await axios.patch(
       `${PRODUCT_BASE_URL}/edit-product/${id}`,
-      { formObject, existingImages },
+      formObject,
       {
         headers: { Authorization: accessJWT },
       }

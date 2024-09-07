@@ -15,19 +15,18 @@ const ViewProduct = () => {
   const { state } = location;
   const product = state?.product;
 
-  const handleOnDelete = async (id) => {
-    const result = await dispatch(deleteProductActions(id)).then(() => {
-      if (result?.status === "success") {
-        navigate("/admin/products");
-        toast.success("Product Successfully Deleted.");
-      }
-    });
+  const handleOnDelete = async (product) => {
+    const result = await dispatch(deleteProductActions(product));
+    if (result?.status === "success") {
+      navigate("/admin/products");
+      toast.success("Product Successfully Deleted.");
+    }
   };
   return (
     <>
       <Container>
         <Row>
-          {product.images.map((image, i) => (
+          {product?.images.map((image, i) => (
             <Col xs={6} md={4} key={i} className="viewProductImages">
               <Image src={image} thumbnail />
             </Col>
@@ -39,7 +38,7 @@ const ViewProduct = () => {
 
         <Button
           variant="danger"
-          onClick={() => handleOnDelete(product._id)}
+          onClick={() => handleOnDelete(product)}
           disabled={isLoading}
         >
           {isLoading ? <Spinner animation="border" size="sm" /> : "Delete"}

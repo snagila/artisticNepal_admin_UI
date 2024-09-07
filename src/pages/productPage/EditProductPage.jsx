@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import NewProductForm from "../../components/productPage/NewProductForm";
+import EditProductForm from "../../components/productPage/EditProductForm";
 
 const EditProductPage = () => {
   const { id } = useParams();
@@ -24,12 +25,12 @@ const EditProductPage = () => {
     salesEndDate: productToEdit.salesEndDate
       ? format(new Date(productToEdit?.salesEndDate), "yyyy-MM-dd", "")
       : "",
-    uploadedImages: productToEdit.images,
+    images: productToEdit.images,
   };
 
   return (
     <>
-      <NewProductForm productData={productData} />
+      <EditProductForm productData={productData} />
     </>
   );
 };

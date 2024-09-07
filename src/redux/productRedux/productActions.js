@@ -40,27 +40,39 @@ export const getProductsAction = () => async (dispatch) => {
 };
 
 // delete a product
-export const deleteProductActions = (id) => async (dispatch) => {
+export const deleteProductActions = (product) => async (dispatch) => {
   dispatch(setIsLoading(true));
-  const result = await deleteProduct(id);
+  const result = await deleteProduct(product);
 
   if (result.status === "error") {
     dispatch(setIsLoading(false));
-    toast.error(error.message);
-    return result;
+    toast.error(result.message);
+    return;
   }
   if (result.status === "success") {
     dispatch(setIsLoading(false));
     dispatch(getProductsAction());
-    return Promise.resolve();
+    return result;
   }
   toast.error("Something went wrong. Plaese try later.");
   dispatch(setIsLoading(false));
 };
 
 // edit product
-export const editProductAction =
-  (formObject, id, existingImages) => async (dispatch) => {
-    const result = await editProduct(formObject, id, existingImages);
-    console.log(result);
-  };
+export const editProductAction = (formObject, id) => async (dispatch) => {
+  const result = await editProduct(formObject, id);
+
+  if (result.status === "error") {
+    dispatch(setIsLoading(false));
+    toast.error(error.message);
+    return;
+  }
+  if (result.status === "success") {
+    toast.success(result.message);
+    dispatch(setIsLoading(false));
+    dispatch(getProductsAction());
+    return result;
+  }
+  toast.error("Something went wrong. Plaese try later.");
+  dispatch(setIsLoading(false));
+};
