@@ -27,7 +27,7 @@ const ProductCard = ({ products }) => {
           <Card.Img
             src={product.thumbnail[0]}
             alt="Card image"
-            style={{ height: "80%" }}
+            style={{ height: "17rem" }}
           />
           <Card.Body>
             <Card.Title className="fw-bold text-wrap">

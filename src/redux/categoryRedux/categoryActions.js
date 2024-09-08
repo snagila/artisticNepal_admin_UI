@@ -18,9 +18,8 @@ export const createNewCategoryAction = (formData) => async (dispatch) => {
   }
   if (result.status === "success") {
     dispatch(setIsLoading(false));
-    toast.success(result.message);
     dispatch(getCategoriesAction());
-    return;
+    return result;
   }
   dispatch(setIsLoading(false));
 };
@@ -47,8 +46,10 @@ export const updateCategoryAction =
       toast.success(result.message);
       dispatch(setIsLoading(false));
       dispatch(getCategoriesAction());
+      return result;
     }
-    return result;
+    toast.error("Something went wrong. Plaese try later.");
+    dispatch(setIsLoading(false));
   };
 
 //   handle on delete

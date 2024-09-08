@@ -73,7 +73,7 @@ export const getAdmin = async () => {
     return response.data;
   } catch (error) {
     console.log(error.message);
-    return error;
+    return error.message;
   }
 };
 

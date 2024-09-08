@@ -36,6 +36,7 @@ const NewProductForm = ({ initialFormData }) => {
   const { formData, handleOnChange } = useForm(initialFormData);
 
   const handleNewImagesChange = (e) => {
+    console.log(e.target.name);
     if (e.target.name === "thumbnail") {
       const file = Array.from(e.target.files);
 
@@ -145,7 +146,7 @@ const NewProductForm = ({ initialFormData }) => {
                 type="file"
                 name="thumbnail"
                 onChange={handleNewImagesChange}
-                accept="image/png,image/jpeg, image/gif, image/webp"
+                // accept="image/png,image/jpeg, image/gif, image/webp"
                 className="ms-3"
                 required
               />

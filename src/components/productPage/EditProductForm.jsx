@@ -112,7 +112,7 @@ const EditProductForm = ({ productData }) => {
     Array.from(existingThumbnail).forEach((image) => {
       formObject.append("existingThumbnail", image);
     });
-    console.log(...formObject.entries());
+    // console.log(...formObject.entries());
     const action = await dispatch(editProductAction(formObject, _id));
     if (action?.status === "success") {
       navigate("/admin/products");

@@ -7,6 +7,7 @@ const CATEGORY_API_URL = `${
 // create new categories
 export const createNewCategory = async (formData) => {
   try {
+    console.log(...formData.entries());
     const response = await axios.post(CATEGORY_API_URL, formData, {
       headers: { Authorization: sessionStorage.getItem("accessJWT") },
     });
@@ -36,7 +37,7 @@ export const getCategories = async () => {
 export const updateCategory = async (categoryToEditId, formData) => {
   try {
     const response = await axios.patch(
-      `${CATEGORY_API_URL}/${categoryToEditId}`,
+      `${CATEGORY_API_URL}/edit-category/${categoryToEditId}`,
       formData,
       {
         headers: { Authorization: sessionStorage.getItem("accessJWT") },
