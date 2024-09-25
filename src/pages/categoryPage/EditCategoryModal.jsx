@@ -4,20 +4,12 @@ import useForm from "../../hooks/useForm";
 import { Col, Form, Row, Spinner } from "react-bootstrap";
 import "./categoryPage.css";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  createNewCategoryAction,
-  updateCategoryAction,
-} from "../../redux/categoryRedux/categoryActions";
+import { updateCategoryAction } from "../../redux/categoryRedux/categoryActions";
 import { useEffect, useState } from "react";
 import { ImCross } from "react-icons/im";
-import { useNavigate } from "react-router-dom";
 
 const EditCategoryModal = (props) => {
-  const navigate = useNavigate();
-  const { categories } = useSelector((state) => state.category);
-
   const { isLoading } = useSelector((state) => state.helper);
-
   const [newThumbnail, setNewThumbnail] = useState([]);
   const [existingThumbnail, setExistingthumbnail] = useState([]);
   const [thumbnailToDeleteFromCloud, setThumbnailToDeleteFromCloud] = useState(
@@ -70,7 +62,6 @@ const EditCategoryModal = (props) => {
     );
 
     if (action?.status === "success") {
-      console.log(props.onHide);
       props.onHide();
       toast.success(action.message);
     }

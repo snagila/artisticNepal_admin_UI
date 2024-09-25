@@ -23,7 +23,7 @@ const LoginForm = ({ initialFormData }) => {
     setIsLoading(true);
 
     const result = await loginAdmin(formData);
-
+    console.log(result);
     if (result.status === "error") {
       setIsLoading(false);
       return toast.error(result.message);
@@ -32,7 +32,7 @@ const LoginForm = ({ initialFormData }) => {
     if (result.status === "success") {
       sessionStorage.setItem("accessJWT", result.data.accessJWT);
       localStorage.setItem("refreshJWT", result.data.refreshJWT);
-      console.log("loggedin");
+
       dispatch(getAdminAction());
       setIsLoading(false);
       return;
@@ -53,9 +53,9 @@ const LoginForm = ({ initialFormData }) => {
     }
 
     // if not try auto login
-    if (!admin._id) {
-      dispatch(autoLoginAction());
-    }
+    // if (!admin._id) {
+    //   dispatch(autoLoginAction());
+    // }
   }, [admin?._id]);
   return (
     <>
@@ -80,7 +80,7 @@ const LoginForm = ({ initialFormData }) => {
         ))}
 
         <Button variant="primary" className="btn-lg w-100" type="submit">
-          {isLoading ? <Spinner animation="grow" /> : "Login"}
+          {isLoading ? <Spinner animation="border" /> : "Login"}
         </Button>
       </Form>
     </>

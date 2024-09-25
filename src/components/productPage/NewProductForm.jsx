@@ -190,7 +190,7 @@ const NewProductForm = ({ initialFormData }) => {
                 multiple
                 max={5}
                 onChange={handleNewImagesChange}
-                accept="image/png,image/jpeg, image/gif, image/webp"
+                // accept="image/png,image/jpeg, image/gif, image/webp"
                 className="ms-3"
                 required
               />

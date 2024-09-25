@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const ADMIN_API_URL = `${import.meta.env.VITE_APP_ADMIN_API_URL}/api/user`;
+const ADMIN_API_URL = `${import.meta.env.VITE_APP_ADMIN_API_URL}/api/admin`;
 
 // signUp new Admin
 export const signUpAdmin = async (formData) => {
@@ -22,6 +22,7 @@ export const verifyUser = async (verifyUserObj) => {
     return response.data;
   } catch (error) {
     console.log(error.message);
+    return error.message;
   }
 };
 
@@ -66,8 +67,10 @@ export const loginAdmin = async (formObj) => {
 // get admin data
 export const getAdmin = async () => {
   try {
+    const token = sessionStorage?.getItem("accessJWT");
+
     const response = await axios.get(ADMIN_API_URL, {
-      headers: { Authorization: sessionStorage.getItem("accessJWT") },
+      headers: { Authorization: token },
     });
 
     return response.data;

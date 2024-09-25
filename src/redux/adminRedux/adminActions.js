@@ -8,8 +8,10 @@ export const getAdminAction = () => async (dispatch) => {
   if (!sessionStorage.getItem("accessJWT")) {
     return;
   }
+
   const result = await getAdmin();
   if (result?.status === "error") {
+    toast.error("error here");
     toast.error(result.message);
     return;
   }

@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Alert, Badge, Button, Col, Form, Row, Spinner } from "react-bootstrap";
+import {
+  Alert,
+  Badge,
+  Button,
+  Col,
+  Container,
+  Form,
+  Row,
+  Spinner,
+} from "react-bootstrap";
 import { signupFormFields } from "./signupformFields";
 import CustomInput from "../../sharedComponents/CustomInput";
 import useForm from "../../../hooks/useForm";
@@ -18,8 +27,6 @@ const SignUp_Form = ({ initialFormData }) => {
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    setErrorAlert(false);
-    setSuccessAlert(false);
     setIsLoading(true);
 
     const { confirmPassword, password, ...rest } = formData;
@@ -32,59 +39,62 @@ const SignUp_Form = ({ initialFormData }) => {
       setIsLoading(false);
       setMessage(result.message);
       setErrorAlert(true);
-      setFormData(initialFormData);
+      // setFormData(initialFormData);
       return;
     }
 
     if (result?.status === "success") {
-      setFormData(initialFormData);
+      // setFormData(initialFormData);
       setIsLoading(false);
       setMessage(result.message);
       setSuccessAlert(true);
 
       return;
     }
-    dispatch(setIsLoading(false));
+    setIsLoading(false);
     toast.error("Something went wrong. Please try again later.");
   };
 
   return (
     <>
-      <Form className="p-2" onSubmit={handleOnSubmit}>
-        <h2 className=" mb-4">
-          <Badge bg="danger">ADMIN SignUp</Badge>
-        </h2>
-        {successAlert && (
-          <Alert variant="success" className="mt-2">
-            {message}
-          </Alert>
-        )}
-        {errorAlert && (
-          <Alert variant="danger" className="mt-2">
-            {message}
-          </Alert>
-        )}
-        <Row>
-          {signupFormFields.map((field, index) => (
-            <Col key={index} xs={index === 0 || index === 1 ? 6 : 12}>
-              <CustomInput
-                handleOnChange={handleOnChange}
-                label={field.label}
-                inputAttributes={{
-                  name: field.name,
-                  type: field.type,
-                  placeholder: field.placeholder,
-                  required: field.required,
-                  value: formData[field.name],
-                }}
-              />
-            </Col>
-          ))}
-        </Row>
-        <Button className="w-100" type="submit" disabled={isLoading}>
-          {isLoading ? <Spinner animation="grow" /> : "Submit"}
-        </Button>
-      </Form>
+      <Container>
+        {" "}
+        <Form className="p-2" onSubmit={handleOnSubmit}>
+          <h2 className=" mb-4">
+            <Badge bg="danger">ADMIN SignUp</Badge>
+          </h2>
+          {successAlert && (
+            <Alert variant="success" className="mt-2">
+              {message}
+            </Alert>
+          )}
+          {errorAlert && (
+            <Alert variant="danger" className="mt-2">
+              {message}
+            </Alert>
+          )}
+          <Row>
+            {signupFormFields.map((field, index) => (
+              <Col key={index} xs={index === 0 || index === 1 ? 6 : 12}>
+                <CustomInput
+                  handleOnChange={handleOnChange}
+                  label={field.label}
+                  inputAttributes={{
+                    name: field.name,
+                    type: field.type,
+                    placeholder: field.placeholder,
+                    required: field.required,
+                    value: formData[field.name],
+                  }}
+                />
+              </Col>
+            ))}
+          </Row>
+          <Button className="w-100" type="submit" disabled={isLoading}>
+            {isLoading ? <Spinner animation="grow" /> : "Submit"}
+          </Button>
+        </Form>
+      </Container>
     </>
   );
 };

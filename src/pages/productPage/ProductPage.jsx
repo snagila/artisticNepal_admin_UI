@@ -36,7 +36,10 @@ const ProductPage = () => {
             </Col>
           </Row>
 
-          <Row className="gap-2 ms-1">
+          <Row
+            // className="gap-2 ms-1"
+            className="d-flex align-items-center justify-content-evenly gap-4"
+          >
             <ProductCard products={products} />
           </Row>
         </Row>
