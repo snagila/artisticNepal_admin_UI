@@ -55,7 +55,9 @@ export const newPassword = async (data) => {
 // login admin
 export const loginAdmin = async (formObj) => {
   try {
-    const response = await axios.post(`${ADMIN_API_URL}/login`, formObj);
+    const response = await axios.post(`${ADMIN_API_URL}/login`, formObj, {
+      headers: { Authorization: sessionStorage?.getItem("accessJWT") },
+    });
 
     return response.data;
   } catch (error) {
@@ -67,10 +69,8 @@ export const loginAdmin = async (formObj) => {
 // get admin data
 export const getAdmin = async () => {
   try {
-    const token = sessionStorage?.getItem("accessJWT");
-
     const response = await axios.get(ADMIN_API_URL, {
-      headers: { Authorization: token },
+      headers: { Authorization: sessionStorage?.getItem("accessJWT") },
     });
 
     return response.data;

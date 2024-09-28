@@ -1,9 +1,7 @@
-import { useEffect } from "react";
 import { Badge } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({ products }) => {
   const navigate = useNavigate();

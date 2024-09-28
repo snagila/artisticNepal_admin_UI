@@ -18,13 +18,33 @@ const AllUsers = ({ allUser }) => {
     }
   };
 
+  const [formData, setFormData] = useState("");
+  const handleSearch = (e) => {
+    setFormData(e.target.value);
+  };
+
+  const displayUser =
+    allUser.filter(
+      (user) =>
+        //  console.log(user)
+        user.firstName.toLowerCase().includes(formData.toLowerCase()) ||
+        user.lastName.toLowerCase().includes(formData.toLowerCase()) ||
+        user.email.toLowerCase().includes(formData.toLowerCase()) ||
+        user.phone.includes(formData)
+    ) || allUser;
+
   return (
     <>
-      <Form.Control placeholder="enter user" />
+      <Form.Control
+        placeholder="enter user"
+        onChange={handleSearch}
+        value={formData}
+      />
+
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th></th>
+            <th>#</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>User E-mail</th>

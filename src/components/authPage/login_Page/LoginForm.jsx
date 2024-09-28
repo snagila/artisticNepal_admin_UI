@@ -48,7 +48,7 @@ const LoginForm = ({ initialFormData }) => {
     // if user exists [logged in], navigate to admin homepage
     if (admin?._id) {
       dispatch(getAdminAction());
-      navigate("/admin/products");
+      navigate("/admin/dashboard");
       return;
     }
 

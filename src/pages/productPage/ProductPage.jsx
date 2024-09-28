@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { BsTag } from "react-icons/bs";
 import { Link } from "react-router-dom";
@@ -7,10 +7,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProductsAction } from "../../redux/productRedux/productActions";
 
 const ProductPage = () => {
+  const [formData, setFormData] = useState("");
   const { products } = useSelector((state) => state.product);
-  // console.log(products);
   const dispatch = useDispatch();
+  const handleSearch = (e) => {
+    setFormData(e.target.value);
+  };
 
+  const displayProduct =
+    products.filter(
+      (product) =>
+        product.name.toLowerCase().includes(formData.toLowerCase()) ||
+        product.sku.toLowerCase().includes(formData.toLowerCase())
+    ) || products;
   useEffect(() => {
     dispatch(getProductsAction());
   }, []);
@@ -22,8 +31,10 @@ const ProductPage = () => {
             <Col md={6} className="d-flex gap-2">
               <Form.Control
                 type="text"
-                placeholder="Search Products"
+                placeholder="Search Products by name/sku"
                 className="text-center"
+                value={formData}
+                onChange={handleSearch}
               />
               <Button>Search</Button>
             </Col>
@@ -40,7 +51,7 @@ const ProductPage = () => {
             // className="gap-2 ms-1"
             className="d-flex align-items-center justify-content-evenly gap-4"
           >
-            <ProductCard products={products} />
+            <ProductCard products={displayProduct} />
           </Row>
         </Row>
       </Container>

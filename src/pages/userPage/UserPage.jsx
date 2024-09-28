@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { getAllUserAction } from "../../redux/userRedux/userActions";
 import { useDispatch, useSelector } from "react-redux";
-import { Container, Form, Tab, Tabs } from "react-bootstrap";
+import { Container, Tab, Tabs } from "react-bootstrap";
 import AllUsers from "../../components/userPage/AllUsers";
 
 const UserPage = () => {

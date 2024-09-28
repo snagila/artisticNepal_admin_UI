@@ -1,5 +1,5 @@
 import "react-toastify/dist/ReactToastify.css";
-import { Route, Router, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import AuthLayout from "./pages/auth/authLayout/AuthLayout";
 import Signup_Page from "./pages/auth/signupPage/Signup_Page";
 import { ToastContainer } from "react-toastify";
@@ -12,7 +12,6 @@ import AdminLayout from "./components/adminPrivateRoute&Layout/AdminLayout";
 import Dashboard from "./pages/dashboard/Dashboard";
 import CategoryPage from "./pages/categoryPage/CategoryPage";
 import ProductPage from "./pages/productPage/ProductPage";
-
 import ViewProduct from "./pages/productPage/ViewProduct";
 import NewProductPage from "./pages/productPage/newProductPage";
 import EditProductPage from "./pages/productPage/EditProductPage";

@@ -10,7 +10,7 @@ const accessJWT = sessionStorage.getItem("accessJWT");
 export const createNewProduct = async (formObject) => {
   try {
     const response = await axios.post(PRODUCT_BASE_URL, formObject, {
-      headers: { Authorization: accessJWT },
+      headers: { Authorization: sessionStorage.getItem("accessJWT") },
     });
     return response.data;
   } catch (error) {

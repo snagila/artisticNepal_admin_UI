@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import AddCategoryModal from "../../pages/categoryPage/AddCategoryModal";
 import { deleteCategoryAction } from "../../redux/categoryRedux/categoryActions";
 import EditCategoryModal from "../../pages/categoryPage/EditCategoryModal";
+import { toast } from "react-toastify";
 
 const CategoryCard = ({ categories }) => {
   const [modalShow, setModalShow] = useState(false);
@@ -28,7 +29,10 @@ const CategoryCard = ({ categories }) => {
         "This deletes all your products within this category. \n Are you sure you want to continue?"
       )
     ) {
-      dispatch(deleteCategoryAction(id));
+      toast.error(
+        "Sorry! please try deleting product instead. As this will remove all the products of this category."
+      );
+      // dispatch(deleteCategoryAction(id));
     }
   };
 

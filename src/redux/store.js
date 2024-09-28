@@ -4,6 +4,7 @@ import adminReducer from "./adminRedux/adminSlice";
 import categoryReducer from "./categoryRedux/categorySlice";
 import productReducer from "./productRedux/productSlice";
 import userReducer from "./userRedux/userSlice";
+import orderReducer from "./orderRedux/orderSlice";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     category: categoryReducer,
     product: productReducer,
     user: userReducer,
+    order: orderReducer,
   },
 });
 export default store;

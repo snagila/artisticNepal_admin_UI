@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Col, Row } from "react-bootstrap";
 import { BsTag } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -31,18 +31,6 @@ const CategoryPage = () => {
             <Button variant="success" onClick={() => setModalShow(true)}>
               + Create New Category <BsTag />
             </Button>
-          </Col>
-          <Col md={5}>
-            <Form className="d-flex gap-2" onSubmit={handleOnSearch}>
-              <Form.Control
-                type="text"
-                placeholder="Search Category"
-                className="text-center"
-                name="category"
-                // onChange={handleOnChange}
-              />
-              <Button type="submit">Search</Button>
-            </Form>
           </Col>
         </Row>
         {
