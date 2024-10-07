@@ -53,7 +53,7 @@ const AllUsers = ({ allUser }) => {
         </thead>
         <tbody>
           {allUser.map((individual, i) => (
-            <tr>
+            <tr key={i}>
               <td className="text-center">{i + 1}</td>
               <td>{individual.firstName}</td>
               <td>{individual.lastName}</td>

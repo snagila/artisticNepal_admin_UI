@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import NewProductForm from "../../components/productPage/NewProductForm";
 import EditProductForm from "../../components/productPage/EditProductForm";
+import { format } from "date-fns";
 
 const EditProductPage = () => {
   const { id } = useParams();

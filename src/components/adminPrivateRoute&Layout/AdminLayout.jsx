@@ -9,19 +9,21 @@ import {
   BsTag,
   BsTags,
 } from "react-icons/bs";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import SidebarItem from "./SidebarItem";
+import { logoutUserAction } from "../../redux/userRedux/userActions";
 
 const AdminLayout = () => {
   const { admin } = useSelector((state) => state.admin);
   const { firstName, lastName, email } = admin;
+  const dispatch = useDispatch();
 
   const [activeItem, setActiveItem] = useState("Dashboard");
 
-  // const handleLogout = () => {
-  //   dispatch(logoutUserAction(email));
-  // };
+  const handleLogout = () => {
+    dispatch(logoutUserAction(email));
+  };
 
   return (
     <>
@@ -36,7 +38,7 @@ const AdminLayout = () => {
                 <Card>
                   {/* logo and header part */}
                   <Card.Header className="text-center fw-bold">
-                    <BsPersonCheck size={100} />
+                    <BsPersonCheck size={80} />
                   </Card.Header>
                   <Card.Body className="fw-bold text-center">
                     {firstName + " " + lastName}
@@ -85,7 +87,7 @@ const AdminLayout = () => {
                 <Button
                   variant="outline-danger"
                   className="w-100 mt-auto"
-                  // onClick={handleLogout}
+                  onClick={handleLogout}
                 >
                   Logout
                 </Button>

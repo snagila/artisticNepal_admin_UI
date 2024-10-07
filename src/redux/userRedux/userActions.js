@@ -1,5 +1,10 @@
 import { toast } from "react-toastify";
-import { deleteUser, editUser, getAllUser } from "../../axios/usersAxios";
+import {
+  deleteUser,
+  editUser,
+  getAllUser,
+  logoutUser,
+} from "../../axios/usersAxios";
 import { setUsers } from "./userSlice";
 
 // get all users
@@ -31,4 +36,10 @@ export const deleteUserAction = (userId) => async (dispatch) => {
   }
   toast.success(result.message);
   dispatch(getAllUserAction());
+};
+
+// logout user
+export const logoutUserAction = (email) => async (dispatch) => {
+  const result = await logoutUser(email);
+  console.log(result);
 };

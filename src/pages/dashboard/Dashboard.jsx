@@ -27,6 +27,7 @@ import {
 } from "chart.js";
 import { getOrdersActions } from "../../redux/orderRedux/orderAction";
 import { getAllUserAction } from "../../redux/userRedux/userActions";
+import { getProductsAction } from "../../redux/productRedux/productActions";
 // import { deleteOrderAction } from "../../redux/order/orderAction";
 
 ChartJS.register(
@@ -93,6 +94,7 @@ const Dashboard = () => {
   useEffect(() => {
     dispatch(getOrdersActions());
     dispatch(getAllUserAction());
+    dispatch(getProductsAction());
   }, []);
   return (
     <Container fluid className="mt-4">
@@ -197,7 +199,6 @@ const Dashboard = () => {
                 </thead>
                 <tbody>
                   {latestOrders.map((order, index) => {
-                    console.log(order);
                     // Find the user matching the order's userId
                     const user = users.find(
                       (user) => user._id === order.userId

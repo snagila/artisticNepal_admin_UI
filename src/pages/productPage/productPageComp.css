@@ -1,3 +1,43 @@
 .viewProductImages {
   overflow-x: scroll;
 }
+
+.productPageRow1 {
+  min-height: 60vh;
+  padding: 0 !important;
+}
+.product-readmore-button {
+  font-size: 10px;
+  display: flex;
+}
+.productDescriptionRow {
+  padding: 2rem 6rem 0 6rem;
+  text-align: start;
+}
+
+@media (max-width: 768px) {
+  .productName-row {
+    padding-top: 2rem;
+  }
+  .col-md-2 {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: none;
+    overflow-y: scroll;
+  }
+  .sidePicturesDiv {
+    display: flex !important;
+    direction: horizontal;
+    gap: 1rem;
+  }
+  .productDescriptionCol {
+    padding-right: 2rem;
+    padding-left: 2rem;
+    text-align: center;
+  }
+  .productDescriptionRow {
+    font-size: 10px;
+    padding: 2rem 1rem 0 0.5rem;
+  }
+}
