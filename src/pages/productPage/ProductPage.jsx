@@ -38,7 +38,7 @@ const ProductPage = () => {
             <Col xs={12} md={4}>
               <Link to="/admin/new-product">
                 <Button variant="success" className="btn-md w-100 ">
-                  + Create New Product <BsTag />
+                  + New Product <BsTag />
                 </Button>
               </Link>
             </Col>

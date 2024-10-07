@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 
 import { setAdmin } from "./adminSlice";
-import { getAdmin, getNewAccessJWT } from "../../axios/adminAxios";
+import { getAdmin, getNewAccessJWT, logoutAdmin } from "../../axios/adminAxios";
 
 // get admin user
 export const getAdminAction = () => async (dispatch) => {
@@ -11,7 +11,6 @@ export const getAdminAction = () => async (dispatch) => {
 
   const result = await getAdmin();
   if (result?.status === "error") {
-    toast.error("error here");
     toast.error(result.message);
     return;
   }
@@ -37,5 +36,20 @@ export const autoLoginAction = () => async (dispatch) => {
       dispatch(getAdminAction());
       return;
     }
+  }
+};
+
+// logout admin
+export const logoutAdminAction = (email) => async (dispatch) => {
+  const result = await logoutAdmin(email);
+  console.log(result);
+  if (result?.status === "error") {
+    toast.error(result.message);
+    return;
+  }
+  if (result?.status === "success") {
+    sessionStorage.removeItem("accessJWT");
+    localStorage.removeItem("refreshJWT");
+    dispatch(setAdmin({}));
   }
 };

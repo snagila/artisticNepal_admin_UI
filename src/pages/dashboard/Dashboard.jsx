@@ -1,17 +1,18 @@
 import React, { useEffect } from "react";
-import { Container, Row, Col, Card, Table, Button } from "react-bootstrap";
-import { Line, Bar } from "react-chartjs-2";
 import {
-  FaShoppingCart,
-  FaDollarSign,
-  FaUsers,
-  FaBox,
-  FaTrash,
-} from "react-icons/fa";
+  Container,
+  Row,
+  Col,
+  Card,
+  Table,
+  Button,
+  Badge,
+} from "react-bootstrap";
+import { Line } from "react-chartjs-2";
+import { FaShoppingCart, FaDollarSign, FaUsers, FaBox } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import CountUp from "react-countup";
 import { Link } from "react-router-dom";
-import "./Dashboard.css";
 
 // Chart.js config
 import {
@@ -88,7 +89,6 @@ const Dashboard = () => {
     dispatch(deleteOrderAction(order));
   };
 
-  // Get the latest 5 orders
   const latestOrders = orders.slice(-5).reverse();
 
   useEffect(() => {
@@ -98,68 +98,92 @@ const Dashboard = () => {
   }, []);
   return (
     <Container fluid className="mt-4">
-      <Row className="mb-4">
-        <Col md={3}>
-          <Card className="dashboard-card">
-            <Link className="dashboard-link" to="/admin/orders">
-              <Card.Body>
+      <Row className="mb-4 gap-1 ">
+        {/* total orders */}
+        <Col xs={12} md={5} lg={2}>
+          <Link to="/admin/orders">
+            <Badge bg="light " className="text-dark   ">
+              <Col className="text-start ">
                 <FaShoppingCart
                   size={50}
                   className="dashboard-icon"
-                  color="#4e73df"
+                  color="red"
                 />
-                <Card.Title>
-                  <CountUp end={orders.length} duration={2} />
-                </Card.Title>
-              </Card.Body>
-            </Link>
-          </Card>
+              </Col>
+              <Col>
+                <div>
+                  <span className="fs-5  "> Total orders:</span> &nbsp;
+                  <span className="text-danger fs-4">
+                    <CountUp end={orders.length} duration={2} />
+                  </span>
+                </div>
+              </Col>
+            </Badge>
+          </Link>
         </Col>
-        <Col md={3}>
-          <Card className="dashboard-card">
-            <Link className="dashboard-link" to="/admin/sales">
-              <Card.Body>
-                <FaDollarSign
-                  size={50}
-                  className="dashboard-icon"
-                  color="#1cc88a"
-                />
-                <Card.Title>
+
+        {/* toatal sales */}
+        <Col xs={12} md={5} lg={2}>
+          <Badge bg="light " className="text-dark   ">
+            <Col className="text-start ">
+              <FaDollarSign
+                size={50}
+                className="dashboard-icon"
+                color="#1cc88a"
+              />
+            </Col>
+            <Col>
+              <div>
+                <span className="fs-6"> Total sales:</span> &nbsp;
+                <span className="text-danger fs-5">
                   <CountUp
                     end={salesByDay.reduce((acc, curr) => acc + curr, 0)}
                     duration={2}
                     separator=","
                     prefix="$"
-                  />{" "}
-                  Sales
-                </Card.Title>
-              </Card.Body>
-            </Link>
-          </Card>
+                  />
+                </span>
+              </div>
+            </Col>
+          </Badge>
         </Col>
-        <Col md={3}>
-          <Card className="dashboard-card">
-            <Link className="dashboard-link" to="/admin/users">
-              <Card.Body>
-                <FaUsers size={50} className="dashboard-icon" color="#36b9cc" />
-                <Card.Title>
-                  <CountUp end={users.length} duration={2} /> Users
-                </Card.Title>
-              </Card.Body>
-            </Link>
-          </Card>
+
+        {/* total users */}
+        <Col xs={12} md={5} lg={2}>
+          <Link to="/admin/users">
+            <Badge bg="light " className="text-dark   ">
+              <Col className="text-start ">
+                <FaUsers size={50} color="#36b9cc" />
+              </Col>
+              <Col>
+                <div>
+                  <span className="fs-6"> Total users:</span> &nbsp;
+                  <span className="text-danger fs-5">
+                    <CountUp end={users.length} duration={2} />
+                  </span>
+                </div>
+              </Col>
+            </Badge>
+          </Link>
         </Col>
-        <Col md={3}>
-          <Card className="dashboard-card">
-            <Link className="dashboard-link" to="/admin/products">
-              <Card.Body>
+
+        {/* prodcuts count */}
+        <Col xs={12} md={5} lg={2}>
+          <Link to="/admin/products">
+            <Badge bg="light " className="text-dark   ">
+              <Col className="text-start ">
                 <FaBox size={50} className="dashboard-icon" color="#f6c23e" />
-                <Card.Title>
-                  <CountUp end={products.length} duration={2} /> Products
-                </Card.Title>
-              </Card.Body>
-            </Link>
-          </Card>
+              </Col>
+              <Col>
+                <div>
+                  <span className="fs-6"> Total users:</span> &nbsp;
+                  <span className="text-danger fs-5">
+                    <CountUp end={products.length} duration={2} />
+                  </span>
+                </div>
+              </Col>
+            </Badge>
+          </Link>
         </Col>
       </Row>
 
@@ -178,74 +202,70 @@ const Dashboard = () => {
         <Col>
           <Card className="dashboard-card">
             <Card.Header>
-              Recent Orders
-              <Link to="/admin/orders" style={{ float: "right" }}>
-                <Button variant="primary">Show All</Button>
+              Recent Orders &nbsp;
+              <Link to="/admin/orders">
+                <Button variant="primary" size="sm">
+                  Show All
+                </Button>
               </Link>
             </Card.Header>
             <Card.Body>
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Order Id</th>
-                    <th>Customer</th>
-                    <th>Products</th>
-                    <th>Amount</th>
-                    <th>Placed Date</th>
-                    <th>Delivery Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {latestOrders.map((order, index) => {
-                    // Find the user matching the order's userId
-                    const user = users.find(
-                      (user) => user._id === order.userId
-                    );
-                    const customerName = user
-                      ? `${user.firstName} ${user.lastName}`
-                      : "Unknown User";
+              <div className="table-responsive">
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Order Id</th>
+                      <th>Customer</th>
+                      <th>Products</th>
+                      <th>Amount</th>
+                      <th>Placed Date</th>
+                      <th>Delivery Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {latestOrders.map((order, index) => {
+                      // Find the user matching the order's userId
+                      const user = users.find(
+                        (user) => user._id === order.userId
+                      );
+                      const customerName = user
+                        ? `${user.firstName} ${user.lastName}`
+                        : "Unknown User";
 
-                    return (
-                      <tr key={order._id}>
-                        <td>{index + 1}</td>
-                        <td>{order._id}</td>
-                        <td>{customerName}</td>
-                        <td>
-                          {order.orderItems
-                            .map((p) => ` ${p.name} (${p.quantity})`)
-                            .join(", ")}
-                        </td>
-                        <td>${order.orderTotal}</td>
-                        <td>
-                          {new Date(order.updatedAt).toLocaleDateString()}
-                        </td>
-                        <td>
-                          <span
-                            className={`badge ${
-                              order.status === "confirmed"
-                                ? "bg-primary"
-                                : order.status === "pending"
-                                ? "bg-info"
-                                : "bg-warning"
-                            }`}
-                          >
-                            {order.status}
-                          </span>
-                        </td>
-                        <td>
-                          <FaTrash
-                            color="red"
-                            style={{ cursor: "pointer", marginLeft: 10 }}
-                            onClick={() => handleDelete(order)}
-                          />
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </Table>
+                      return (
+                        <tr key={order._id}>
+                          <td>{index + 1}</td>
+                          <td>{order._id}</td>
+                          <td>{customerName}</td>
+                          <td>
+                            {order.orderItems
+                              .map((p) => ` ${p.name} (${p.quantity})`)
+                              .join(", ")}
+                          </td>
+                          <td>${order.orderTotal}</td>
+                          <td>
+                            {new Date(order.updatedAt).toLocaleDateString()}
+                          </td>
+                          <td>
+                            <span
+                              className={`badge ${
+                                order.status === "confirmed"
+                                  ? "bg-primary"
+                                  : order.status === "pending"
+                                  ? "bg-info"
+                                  : "bg-warning"
+                              }`}
+                            >
+                              {order.status}
+                            </span>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </Table>
+              </div>
             </Card.Body>
           </Card>
         </Col>

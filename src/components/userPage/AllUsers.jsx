@@ -40,50 +40,52 @@ const AllUsers = ({ allUser }) => {
         onChange={handleSearch}
         value={formData}
       />
-
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>User E-mail</th>
-            <th className="text-center">User Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {allUser.map((individual, i) => (
-            <tr key={i}>
-              <td className="text-center">{i + 1}</td>
-              <td>{individual.firstName}</td>
-              <td>{individual.lastName}</td>
-              <td>{individual.email}</td>
-              <td className="text-center">
-                <Button
-                  className=""
-                  size="sm"
-                  variant="outline-success"
-                  onClick={() => {
-                    handleShow(), setViewUserDetails(individual);
-                  }}
-                >
-                  {" "}
-                  View{" "}
-                </Button>{" "}
-                <Button
-                  className=""
-                  size="sm"
-                  variant="outline-danger"
-                  onClick={() => handleOnDelete(individual._id)}
-                >
-                  {" "}
-                  Delete{" "}
-                </Button>{" "}
-              </td>
+      <div className="table-responsive">
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>User E-mail</th>
+              <th className="text-center">User Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {allUser.map((individual, i) => (
+              <tr key={i}>
+                <td className="text-center">{i + 1}</td>
+                <td>{individual.firstName}</td>
+                <td>{individual.lastName}</td>
+                <td>{individual.email}</td>
+                <td className="text-center">
+                  <Button
+                    className=""
+                    size="sm"
+                    variant="outline-success"
+                    onClick={() => {
+                      handleShow(), setViewUserDetails(individual);
+                    }}
+                  >
+                    {" "}
+                    View{" "}
+                  </Button>{" "}
+                  <Button
+                    className=""
+                    size="sm"
+                    variant="outline-danger"
+                    onClick={() => handleOnDelete(individual._id)}
+                  >
+                    {" "}
+                    Delete{" "}
+                  </Button>{" "}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
+
       <UserModal
         show={show}
         setShow={setShow}

@@ -43,14 +43,3 @@ export const deleteUser = async (userId) => {
     return error.message;
   }
 };
-
-// logout user
-export const logoutUser = async (email) => {
-  try {
-    const response = await axios.post(`${USER_API_URL}/logout`, { email });
-    return response.data;
-  } catch (error) {
-    console.log(error.message);
-    return error.message;
-  }
-};

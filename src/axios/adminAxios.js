@@ -81,7 +81,7 @@ export const getAdmin = async () => {
 };
 
 // autoLogin / new accessJWT from refreshJWT
-export const getNewAccessJWT = async (refreshJWT) => {
+export const getNewAccessJWT = async () => {
   try {
     const response = await axios.post(
       `${ADMIN_API_URL}/accessJWT`,
@@ -93,5 +93,16 @@ export const getNewAccessJWT = async (refreshJWT) => {
     return response.data;
   } catch (error) {
     console.log(error.message);
+  }
+};
+
+// logout user
+export const logoutAdmin = async (email) => {
+  try {
+    const response = await axios.post(`${ADMIN_API_URL}/logout`, { email });
+    return response.data;
+  } catch (error) {
+    console.log(error.message);
+    return error.message;
   }
 };

@@ -1,4 +1,4 @@
-import { Badge } from "react-bootstrap";
+import { Badge, Col } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { useNavigate } from "react-router-dom";
@@ -17,35 +17,55 @@ const ProductCard = ({ products }) => {
   return (
     <>
       {products?.map((product) => (
-        <Card
-          style={{ width: "19rem", color: "white" }}
-          className=" bg-dark ms-1 "
-          key={product._id}
-        >
-          <Card.Img
-            src={product.thumbnail[0]}
-            alt="Card image"
-            style={{ height: "17rem" }}
-          />
-          <Card.Body>
-            <Card.Title className="fw-bold text-wrap">
-              {product.name} &nbsp;
-              {product.status === "active" ? (
-                <Badge bg="success text-sm">Active</Badge>
-              ) : (
-                <Badge bg="danger">Inactive</Badge>
-              )}
-            </Card.Title>
-
-            <Button
-              variant="outline-primary"
-              className="ms-5 text-white"
-              onClick={() => handleViewProduct(product)}
+        <Col md={5} lg={3}>
+          <Card
+            key={product._id}
+            className="position-relative bg-dark"
+            style={{ color: "whitesmoke" }}
+          >
+            <Card.Img
+              src={product.thumbnail[0]}
+              alt="Card image"
+              style={{ height: "17rem" }}
+            />
+            {/* active status */}
+            <span
+              className={`badge ${
+                product.status === "active" ? "bg-success" : "bg-danger"
+              } position-absolute`}
+              style={{ top: "10px", right: "10px" }}
             >
-              View Product
-            </Button>
-          </Card.Body>
-        </Card>
+              {product.status === "active" ? "Active" : "Inactive"}
+            </span>
+
+            {/* sale status */}
+            <span
+              className={`badge bg-danger
+               position-absolute`}
+              style={{ top: "35px", right: "10px" }}
+            >
+              {product.salesPrice && "On Sale"}
+            </span>
+            <Card.Body>
+              <div className="d-flex flex-column justify-content-center align-items-center">
+                <div>
+                  <Card.Title className=" ">{product.name}</Card.Title>
+                </div>
+                <div>
+                  {" "}
+                  <Button
+                    variant="outline-primary"
+                    className="w-100 "
+                    onClick={() => handleViewProduct(product)}
+                    size="sm"
+                  >
+                    View Product
+                  </Button>
+                </div>
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
       ))}
     </>
   );

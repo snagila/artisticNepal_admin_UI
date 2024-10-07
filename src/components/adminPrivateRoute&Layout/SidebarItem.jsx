@@ -11,8 +11,8 @@ const SidebarItem = (props) => {
           variant={activeItem === label ? "dark" : "outline-dark"}
           className={
             activeItem === label
-              ? "w-100 fw-bold text-light  text-center sideBarItems  "
-              : "w-100 fw-bold text-dark  text-center sideBarItems "
+              ? "w-100 fw-bold text-light   sideBarItems px-0 "
+              : "w-100 fw-bold text-dark   sideBarItems px-0"
           }
           onClick={() => setActiveItem(label)}
         >

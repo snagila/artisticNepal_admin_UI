@@ -55,22 +55,6 @@ const ViewProduct = () => {
 
   return (
     <>
-      {/* <Container>
-        <Row>
-          <ViewProductSwiper product={product} />
-        </Row>
-        <Link to={`/admin/edit-product/${product._id}`}>
-          <Button>Edit</Button>
-        </Link>
-
-        <Button
-          variant="danger"
-          onClick={() => handleOnDelete(product)}
-          disabled={isLoading}
-        >
-          {isLoading ? <Spinner animation="border" size="sm" /> : "Delete"}
-        </Button>
-      </Container> */}
       <Link to={"/admin/products"}>
         <Button className="ms-2">Go Back</Button>
       </Link>
@@ -132,7 +116,11 @@ const ViewProduct = () => {
               <div className="fw-bold fs-4 " style={{ color: "#696969" }}>
                 <div>
                   ${" "}
-                  <span className="text-decoration-line-through">
+                  <span
+                    className={
+                      product.salesPrice ? "text-decoration-line-through" : ""
+                    }
+                  >
                     {product.price}
                   </span>
                   <span className="text-danger"> {product.salesPrice}</span>

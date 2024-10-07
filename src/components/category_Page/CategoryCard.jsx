@@ -45,7 +45,7 @@ const CategoryCard = ({ categories }) => {
           key={category._id}
           className="d-flex align-items-center justify-content-center mt-2 "
         >
-          <Card style={{ width: "15rem" }} className="bg-info-subtle ">
+          <Card style={{ width: "15rem" }} className=" ">
             <Card.Img
               variant="top"
               src={category.categoryThumbnail}
@@ -57,7 +57,7 @@ const CategoryCard = ({ categories }) => {
               </Card.Title>
 
               <Row
-                md={12}
+                md={6}
                 className="gap-1 d-flex align-items-center justify-content-center"
               >
                 <Button

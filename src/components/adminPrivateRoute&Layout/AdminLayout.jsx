@@ -12,7 +12,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import SidebarItem from "./SidebarItem";
-import { logoutUserAction } from "../../redux/userRedux/userActions";
+import { logoutAdminAction } from "../../redux/adminRedux/adminActions";
 
 const AdminLayout = () => {
   const { admin } = useSelector((state) => state.admin);
@@ -22,7 +22,7 @@ const AdminLayout = () => {
   const [activeItem, setActiveItem] = useState("Dashboard");
 
   const handleLogout = () => {
-    dispatch(logoutUserAction(email));
+    dispatch(logoutAdminAction(email));
   };
 
   return (
@@ -38,7 +38,7 @@ const AdminLayout = () => {
                 <Card>
                   {/* logo and header part */}
                   <Card.Header className="text-center fw-bold">
-                    <BsPersonCheck size={80} />
+                    <BsPersonCheck size={70} />
                   </Card.Header>
                   <Card.Body className="fw-bold text-center">
                     {firstName + " " + lastName}

@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateCategoryAction } from "../../redux/categoryRedux/categoryActions";
 import { useEffect, useState } from "react";
 import { ImCross } from "react-icons/im";
+import { toast } from "react-toastify";
 
 const EditCategoryModal = (props) => {
   const { isLoading } = useSelector((state) => state.helper);
@@ -42,6 +43,8 @@ const EditCategoryModal = (props) => {
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
+    toast.error("Please try with product.");
+    return;
     let formObject = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
       if (key !== "categoryThumbnail") {
@@ -171,8 +174,6 @@ const EditCategoryModal = (props) => {
                     ))}
                 </Row>
               </Row>
-
-              {/* this is the end of cat thumbnail */}
             </Row>
           </Modal.Body>
           <Modal.Footer>

@@ -23,7 +23,7 @@ const LoginForm = ({ initialFormData }) => {
     setIsLoading(true);
 
     const result = await loginAdmin(formData);
-    console.log(result);
+
     if (result.status === "error") {
       setIsLoading(false);
       return toast.error(result.message);
