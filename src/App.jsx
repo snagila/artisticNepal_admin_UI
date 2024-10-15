@@ -13,7 +13,7 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import CategoryPage from "./pages/categoryPage/CategoryPage";
 import ProductPage from "./pages/productPage/ProductPage";
 import ViewProduct from "./pages/productPage/ViewProduct";
-import NewProductPage from "./pages/productPage/newProductPage";
+import NewProductPage from "./pages/productPage/NewProductPage";
 import EditProductPage from "./pages/productPage/EditProductPage";
 import UserPage from "./pages/userPage/UserPage";
 import OrderPage from "./pages/orderPage/OrderPage";
