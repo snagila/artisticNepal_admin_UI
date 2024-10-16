@@ -19,9 +19,6 @@ import { setIsLoading } from "../../../redux/helperRedux.js/helperSlice";
 
 const SignUp_Form = ({ initialFormData }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [successAlert, setSuccessAlert] = useState(false);
-  const [errorAlert, setErrorAlert] = useState(false);
-  const [message, setMessage] = useState("");
 
   const { formData, setFormData, handleOnChange } = useForm(initialFormData);
 
@@ -37,17 +34,14 @@ const SignUp_Form = ({ initialFormData }) => {
 
     if (result?.status === "error") {
       setIsLoading(false);
-      setMessage(result.message);
-      setErrorAlert(true);
-      // setFormData(initialFormData);
+      toast.error(result.message);
+      setFormData(initialFormData);
       return;
     }
 
     if (result?.status === "success") {
-      // setFormData(initialFormData);
-      setIsLoading(false);
-      setMessage(result.message);
-      setSuccessAlert(true);
+      setFormData(initialFormData);
+      toast.success(result.message);
 
       return;
     }
@@ -63,16 +57,7 @@ const SignUp_Form = ({ initialFormData }) => {
           <h2 className=" mb-4">
             <Badge bg="danger">ADMIN SignUp</Badge>
           </h2>
-          {successAlert && (
-            <Alert variant="success" className="mt-2">
-              {message}
-            </Alert>
-          )}
-          {errorAlert && (
-            <Alert variant="danger" className="mt-2">
-              {message}
-            </Alert>
-          )}
+
           <Row>
             {signupFormFields.map((field, index) => (
               <Col key={index} xs={index === 0 || index === 1 ? 6 : 12}>
