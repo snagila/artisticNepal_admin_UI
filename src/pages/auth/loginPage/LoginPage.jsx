@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Container } from "react-bootstrap";
+import { Alert, Button, Container } from "react-bootstrap";
 import LoginForm from "../../../components/authPage/login_Page/LoginForm";
 import { Link } from "react-router-dom";
 
@@ -10,6 +10,16 @@ const LoginPage = () => {
   };
   return (
     <>
+      <Alert>
+        This project is deployed using free hosting services, which allowed me
+        to explore and implement various technologies without incurring costs.
+        Please be patient.
+      </Alert>
+      <Alert variant="danger">
+        Great amount of time have been spent adding datas please do not abuse
+        it.
+      </Alert>
+      <Alert variant="info">The placeholder is login details.</Alert>
       <div>
         <LoginForm initialFormData={initialFormData} />
         <div className="pt-4">
